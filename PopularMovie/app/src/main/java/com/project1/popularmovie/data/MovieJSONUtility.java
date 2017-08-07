@@ -37,6 +37,16 @@ public class MovieJSONUtility {
     public static Movie[] parseData(Context context, String movieJson) throws JSONException {
 
         JSONObject movieJSONObject =  new JSONObject(movieJson);
+        //String statusCode = (String) movieJSONObject.getString(STATUS_CODE);
+        //Log.d(TAG,"StatusCode:" + statusCode );
+        /*
+        if(statusCode!=null) {
+            String statusMessage = (String) movieJSONObject.getString(STATUS_MESSAGE);
+            Log.e(TAG,"Error code:" + statusCode );
+            Log.e(TAG,"Error Message:" + statusMessage );
+            return null;
+        }*/
+
         JSONArray movieResults = movieJSONObject.getJSONArray(JSON_RESULTS);
         Movie[] mMovies = null;
         mMovies = new Movie[movieResults.length()];
@@ -85,7 +95,12 @@ public class MovieJSONUtility {
 
             //int releaseYear = LocalTime.parse(dateFormat.format(new Date(releaseDate)));
             // dateFormat.parse(movieResult.getString(releaseDate_param));
-            Movie theMovie = new Movie(id, original_title, overview, vote_average, releaseDate, poster_path);
+            Movie theMovie;
+            if(original_title!=null) {
+                theMovie = new Movie(id, original_title, overview, vote_average, releaseDate, poster_path);
+            } else {
+                theMovie = new Movie(id, title, overview, vote_average, releaseDate, poster_path);
+            }
             mMovies[i] = theMovie;
         }
 

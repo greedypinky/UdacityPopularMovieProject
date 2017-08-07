@@ -13,22 +13,24 @@ public class Movie implements Parcelable {
     public static final String posterBaseURL = "http://image.tmdb.org/t/p/";
     private String movieId; // movie id
     private String movieTitle; // movie title
-    private String movieOriginalTitle; // movie's original title
+    //private String movieOriginalTitle; // movie's original title
     private String moviePlot; // overview
     private String userRating; // vote_average
     private String releaseYear; // year of the release date
     private String posterPath; // movie poster path
 
-    // Need to add the CREATOR field
-    public final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie> () {
+    // Need to add the CREATOR field and the field needs to be static otherwise exception occurs
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie> () {
         @Override
         public Movie createFromParcel(Parcel parcel) {
-            return null;
+
+            return new Movie(parcel);
         }
 
         @Override
         public Movie[] newArray(int i) {
-            return new Movie[0];
+
+            return new Movie[i];
         }
     };
     /**
@@ -60,7 +62,6 @@ public class Movie implements Parcelable {
         userRating  = in.readString();
         releaseYear = in.readString();
         posterPath = in.readString();
-        //image = in.readInt();
     }
 
     /**
@@ -79,13 +80,6 @@ public class Movie implements Parcelable {
         return movieTitle;
     }
 
-    /**
-     * getMovieOriginalTitle
-     * @return
-     */
-    public String getMovieOriginalTitle() {
-        return movieOriginalTitle;
-    }
 
     public String getMoviePlot() {
         return moviePlot;
@@ -110,12 +104,19 @@ public class Movie implements Parcelable {
 
     @Override
     public int describeContents() {
+
         return 0;
     }
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        // The get data order has to be the same when we write data into Parcel
+        parcel.writeString(movieId);
+        parcel.writeString(movieTitle);
+        parcel.writeString(moviePlot);
+        parcel.writeString(userRating);
+        parcel.writeString(releaseYear);
+        parcel.writeString(posterPath);
     }
 
     /**
@@ -125,7 +126,7 @@ public class Movie implements Parcelable {
     public String toString() {
 
         return  "--MovieID--" + movieId
-                + "--Title--" + movieOriginalTitle
+                + "--Title--" + movieTitle
                 + "--MoviePlot--" + moviePlot
                 + "--ReleaseYear--" + releaseYear
                 + "--userRating--" + userRating

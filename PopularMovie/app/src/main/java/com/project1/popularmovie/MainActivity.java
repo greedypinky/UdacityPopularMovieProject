@@ -42,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        boolean hasSavedInstanceState = false;
 
         if(savedInstanceState!= null && savedInstanceState.containsKey(MOVIE_KEY)) {
             // Retrieve the data from the saveInstanceState
             mMovieList = savedInstanceState.getParcelableArrayList(MOVIE_KEY);
+
         }
 
         mMovieGridView = (GridView) findViewById(R.id.movie_grid);
@@ -68,10 +70,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mMovieList = new ArrayList<>();
+        // init the movie list only when it is null
+        if(mMovieList == null) {
+            mMovieList = new ArrayList<>();
+        }
         mMovieAdapter = new MovieAdapter(this, mMovieList);// list cannot be null
         mMovieGridView.setAdapter(mMovieAdapter);
-        loadMoviesData(defaultSortingMethod);
+       // If no savedInstanceState, we need to get data from the API
+        if(savedInstanceState == null) {
+            loadMoviesData(defaultSortingMethod);
+        }
     }
 
     @Override

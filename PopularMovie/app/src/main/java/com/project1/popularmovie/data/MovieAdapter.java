@@ -98,8 +98,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         // TODO: Use Picasso library to load the image into the imageview
         // Picasso will handle loading the images on a background thread, image decompression and caching the images.
-       Picasso.with(getContext()).load(moviePosterURL).into(posterImageView);
-       //Picasso.with(getContext()).load( "https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg").into(posterImageView);
+        Picasso.with(getContext()).load(moviePosterURL).into(posterImageView);
+        //Picasso.with(getContext()).load( "https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg").into(posterImageView);
 
         //posterImageView.setImageResource(mMovies.get(position).);
         String[] mThumbIds  =
