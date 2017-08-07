@@ -46,7 +46,8 @@ https://api.themoviedb.org/3/movie/550?api_key=a232d2749d97ef5370730e47205b19cf
    /// http://api.themoviedb.org/3/movie/popular?api_key=a232d2749d97ef5370730e47205b19cf
    /// http://api.themoviedb.org/3/movie/top_rated?api_key=a232d2749d97ef5370730e47205b19cf
 
-   private final static String V3_API_KEY="a232d2749d97ef5370730e47205b19cf";
+   // TODO: Please replace your API KEY before running the application.
+   private final static String V3_API_KEY="";
    private final static String TAG = MovieNetworkUtility.class.getSimpleName();
 
    // http://image.tmdb.org/t/p/w185/tWqifoYuwLETmmasnGHO7xBjEtt.jpg
