@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Pop Movies</string>
+    <string name="app_pop_title">Pop Movies</string>
+    <string name="app_top_rated_title">Top Rated Movies</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="most_popular">Most Popular</string>
+    <string name="title_activity_movie_detail">MovieDetailActivity</string>
+    <string name="error_message">There is an error occurs! Please try again</string>
+</resources>
