@@ -5,15 +5,14 @@ import android.os.Parcelable;
 
 /**
  * Modal class of Movie
+ * Extends Parceble class otherwise the state cannot be saved when rotating the apps etc!!!!!
  */
-// TODO: Extends Parceble class otherwise the state cannot be saved when rotating the apps etc!!!!!
 public class Movie implements Parcelable {
 
-    //public static final String posterBaseURL = "http://image.tmdb.org/t/p/w185/";
+    //Poster's URL for eg. "http://image.tmdb.org/t/p/w185/";
     public static final String posterBaseURL = "http://image.tmdb.org/t/p/";
     private String movieId; // movie id
     private String movieTitle; // movie title
-    //private String movieOriginalTitle; // movie's original title
     private String moviePlot; // overview
     private String userRating; // vote_average
     private String releaseYear; // year of the release date
@@ -33,6 +32,7 @@ public class Movie implements Parcelable {
             return new Movie[i];
         }
     };
+
     /**
      * Constructor
      * @param id
@@ -66,7 +66,7 @@ public class Movie implements Parcelable {
 
     /**
      * getMovieId
-     * @return
+     * @return movieId
      */
     public String getMovieId() {
         return movieId;
@@ -74,29 +74,49 @@ public class Movie implements Parcelable {
 
     /**
      * getMovieTitle
-     * @return
+     * @return  movieTitle
      */
     public String getMovieTitle() {
         return movieTitle;
     }
 
-
+    /**
+     * getMoviePlot
+     * @return moviePlot
+     */
     public String getMoviePlot() {
         return moviePlot;
     }
 
+    /**
+     * getUserRating
+     * @return userRating
+     */
     public String getUserRating() {
         return userRating;
     }
 
+    /**
+     * getReleaseYear
+     * @return releaseYear
+     */
     public String getReleaseYear() {
         return releaseYear;
     }
 
+    /**
+     * getPosterPath
+     * @return posterPath
+     */
     public String getPosterPath() {
         return posterPath;
     }
 
+    /**
+     * getPosterUR
+     * @param size
+     * @return movie poster's URL
+     */
     public static String getPosterURL(String size) {
 
         return posterBaseURL + size + "/";
@@ -121,7 +141,7 @@ public class Movie implements Parcelable {
 
     /**
      * toString
-     * @return
+     * @return movie properties in String
      */
     public String toString() {
 

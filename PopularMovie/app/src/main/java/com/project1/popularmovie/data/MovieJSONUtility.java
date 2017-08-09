@@ -14,12 +14,12 @@ import java.util.Date;
 
 //import static java.time.LocalDate.*;
 
+/**
+ * parse the information into a movie object and store it into an array
+ */
 public class MovieJSONUtility {
 
     private static final String TAG = MovieJSONUtility.class.getSimpleName();
-
-    // TODO : need a class to parse the information into a movie object and store it into an array
-
     private static final String JSON_RESULTS = "results";
     private static final String STATUS_CODE = "status_code";
     private static final String STATUS_MESSAGE = "status_message";
@@ -37,15 +37,15 @@ public class MovieJSONUtility {
     public static Movie[] parseData(Context context, String movieJson) throws JSONException {
 
         JSONObject movieJSONObject =  new JSONObject(movieJson);
-        //String statusCode = (String) movieJSONObject.getString(STATUS_CODE);
-        //Log.d(TAG,"StatusCode:" + statusCode );
-        /*
-        if(statusCode!=null) {
+
+        if(movieJSONObject.has(STATUS_CODE) && movieJSONObject.has(STATUS_MESSAGE)){
+
+            String statusCode = (String) movieJSONObject.getString(STATUS_CODE);
             String statusMessage = (String) movieJSONObject.getString(STATUS_MESSAGE);
-            Log.e(TAG,"Error code:" + statusCode );
-            Log.e(TAG,"Error Message:" + statusMessage );
+            Log.d(TAG,"StatusCode:" + statusCode );
+            Log.d(TAG,"StatusMessage:" + statusMessage);
             return null;
-        }*/
+        }
 
         JSONArray movieResults = movieJSONObject.getJSONArray(JSON_RESULTS);
         Movie[] mMovies = null;

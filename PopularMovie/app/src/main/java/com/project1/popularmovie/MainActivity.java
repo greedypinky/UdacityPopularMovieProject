@@ -19,12 +19,13 @@ import com.project1.popularmovie.data.MovieAdapter;
 import com.project1.popularmovie.data.MovieJSONUtility;
 import com.project1.popularmovie.data.MovieNetworkUtility;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
+/**
+ * MainActivity
+ */
 public class MainActivity extends AppCompatActivity {
 
     String TAG = MainActivity.class.getSimpleName();
@@ -35,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter mMovieAdapter = null;
     private Movie[] mMovieArray = {};
     private static final String MOVIE_KEY = "movies";
+    private static final String ERROR_KEY = "error";
+    private static final String SORT_POPULAR_KEY = "sortPopular";
+    private boolean isSortPopular = true;
+    private boolean isErrorOccurs = false;
     ArrayList<Movie> mMovieList;
 
     @Override
@@ -44,24 +49,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         boolean hasSavedInstanceState = false;
 
+        // Retrieve store state
         if(savedInstanceState!= null && savedInstanceState.containsKey(MOVIE_KEY)) {
-            // Retrieve the data from the saveInstanceState
-            mMovieList = savedInstanceState.getParcelableArrayList(MOVIE_KEY);
+            if(savedInstanceState.containsKey(MOVIE_KEY)) {
+                // Retrieve the data from the saveInstanceState
+                mMovieList = savedInstanceState.getParcelableArrayList(MOVIE_KEY);
+                Log.d(TAG, "restore the movie list");
+            }
+            if(savedInstanceState.containsKey(ERROR_KEY)) {
+               if( savedInstanceState.getBoolean(ERROR_KEY)) {
+                   showErrorMessage();
+                   Log.d(TAG, "restore the state of error!");
+               }
+            }
+        }
 
+        if(savedInstanceState!= null && savedInstanceState.containsKey(SORT_POPULAR_KEY)) {
+            isSortPopular = savedInstanceState.getBoolean(SORT_POPULAR_KEY);
+            if(isSortPopular) {
+                getSupportActionBar().setTitle(R.string.app_pop_title);
+            } else {
+                getSupportActionBar().setTitle(R.string.app_top_rated_title);
+            }
         }
 
         mMovieGridView = (GridView) findViewById(R.id.movie_grid);
         mErrorMessage = (TextView) findViewById(R.id.error_message);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
-        // TODO: link the click option to open the Detail View - need to study the Indent chapters this week
+        // add listener when clicking on the item
         mMovieGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                //Movie selectedMovie = (Movie) adapterView.getSelectedItem();
                 Movie selectedMovie = mMovieAdapter.getItem(i) ;
-                // TODO: create Indent and pass the movie information to the Details View
                 Log.d(TAG, "Selected movie to string:" + selectedMovie.toString());
                 Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
                 intent.putExtra(MOVIE_KEY, selectedMovie);
@@ -74,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         if(mMovieList == null) {
             mMovieList = new ArrayList<>();
         }
-        mMovieAdapter = new MovieAdapter(this, mMovieList);// list cannot be null
+        mMovieAdapter = new MovieAdapter(this, mMovieList);
         mMovieGridView.setAdapter(mMovieAdapter);
        // If no savedInstanceState, we need to get data from the API
         if(savedInstanceState == null) {
@@ -91,9 +112,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        if(isErrorOccurs) {
+            outState.putBoolean(ERROR_KEY, isErrorOccurs);
+        } else {
+            ArrayList<Movie> movieList = new ArrayList<>(mMovieAdapter.getMovieList());
+            outState.putParcelableArrayList(MOVIE_KEY, movieList);
+            outState.putBoolean(SORT_POPULAR_KEY, isSortPopular);
+            Log.d(TAG, "onSaveInstanceState");
+        }
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(MOVIE_KEY, mMovieList);
-
     }
 
     @Override
@@ -101,16 +128,14 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_sort_most_popular:
-                // TODO add back how to sort by most popular?
-                Toast.makeText(this,"sort by popular" , Toast.LENGTH_LONG).show();
                 loadMoviesData(MovieNetworkUtility.POPULAR);
                 getSupportActionBar().setTitle(R.string.app_pop_title);
+                isSortPopular = true;
                 break;
             case R.id.action_sort_top_rated:
-                // TODO add back how to sort by top rated?
-                Toast.makeText(this,"sort by top-rated" , Toast.LENGTH_LONG).show();
                 loadMoviesData(MovieNetworkUtility.TOP_RATED);
                 getSupportActionBar().setTitle((R.string.app_top_rated_title));
+                isSortPopular = false;
                 break;
             default:
                 break;
@@ -118,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     private void showPosterGrid(){
         mMovieGridView.setVisibility(GridView.VISIBLE);
@@ -129,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
         mErrorMessage.setVisibility(TextView.VISIBLE);
     }
 
-    // TODO: use networkUtility class to get the movies back
+    /**
+     * AsyncTask to get back poster in the other thread
+     */
     private class GetMovieAsyncTask extends AsyncTask<String , Void , Movie[]> {
 
         @Override
@@ -144,16 +172,19 @@ public class MainActivity extends AppCompatActivity {
             // dismiss the progressbar
             mLoadingIndicator.setVisibility(ProgressBar.INVISIBLE);
             if(movies != null) {
+                // Show Grid view
                 showPosterGrid();
+                // update the adapter's movie list
                 mMovieAdapter.updateMovieList(Arrays.asList(movies));
+
 
             } else {
                 // show error message when unable to get the result from the request
                 showErrorMessage();
-                Log.e(TAG,"Unable to get Movies data");
+                isErrorOccurs = true;
+                Log.e(TAG,"Unable to get Movies data, please check the API KEY!");
             }
 
-            //super.onPostExecute(s);
         }
 
         @Override
@@ -178,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * loadMoviesData
-     * @param sortType
+     * @param sortType sort by popular or top-rated
      */
     private void loadMoviesData(String sortType){
         showPosterGrid();

@@ -13,17 +13,18 @@ import android.widget.TextView;
 
 import com.project1.popularmovie.R;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.project1.popularmovie.R.layout.abc_action_bar_up_container;
 import static com.project1.popularmovie.R.layout.movie_item;
 
-//https://www.raywenderlich.com/127544/android-gridview-getting-started
 public class MovieAdapter extends ArrayAdapter<Movie> {
 
-    private Context mContext;
-    private List<Movie> mMovies;
-    private String currentPosterSize ="w185";
+    private Context mContext; // Context of MainActivity
+    private List<Movie> mMovies; // Movie list
+    private String currentPosterSize ="w185"; // Currently we will use poster size w185
 
     public static final String TAG = MovieAdapter.class.getSimpleName();
 
@@ -84,55 +85,48 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         }
 
         ImageView posterImageView = (ImageView) convertView.findViewById(R.id.movie_thumbnail_image);
-        TextView debugText = (TextView)convertView.findViewById(R.id.debugtext);
-        debugText.setText(movieItem.getMovieTitle());
-
         //posterImageView.setLayoutParams(new GridView.LayoutParams(85,85));
-        //posterImageView.setPadding(8, 8, 8, 8);
-        //TODO: Set the image by this position
+        // Set the image by this position
         String posterSize = currentPosterSize;
         String posterBaseURL = Movie.getPosterURL(posterSize);
 
         String moviePosterURL = posterBaseURL + movieItem.getPosterPath();
         Log.d(TAG,"Load image from poster URL : " + moviePosterURL);
-
-        // TODO: Use Picasso library to load the image into the imageview
         // Picasso will handle loading the images on a background thread, image decompression and caching the images.
         Picasso.with(getContext()).load(moviePosterURL).into(posterImageView);
-        //Picasso.with(getContext()).load( "https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg").into(posterImageView);
-
-        //posterImageView.setImageResource(mMovies.get(position).);
-        String[] mThumbIds  =
-                {   "https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg",
-                        "https://lh4.googleusercontent.com/--dq8niRp7W4/URquVgmXvgI/AAAAAAAAAbs/-gnuLQfNnBA/s1024/A%252520Song%252520of%252520Ice%252520and%252520Fire.jpg",
-                        "https://lh5.googleusercontent.com/-7qZeDtRKFKc/URquWZT1gOI/AAAAAAAAAbs/hqWgteyNXsg/s1024/Another%252520Rockaway%252520Sunset.jpg",
-                };
-        //posterImageView.setImageResource(R.drawable.cupcake);
-        Log.d(TAG,"SetImageResource");
-
-       /*
-        You can use Picasso to easily load album art thumbnails into your views using:
-        Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView);
-        Picasso will handle loading the images on a background thread, image decompression and caching the images.
-        */
-
         // populate the view item in the AdapterView
         return convertView;
     }
 
-    // update the movie list
-    // TODO: call from the Async Task to set the latest movie list
+    /**
+     * call from the Async Task to set the latest movie list
+     * @param theMovies movie list
+     */
     public void updateMovieList(List<Movie> theMovies) {
         mMovies = theMovies;
-        Log.e(TAG,"is the list empty?" + mMovies.size());
-        // otherwise Gridview will not update itself!!
+        Log.d(TAG,"is the movie list empty?" + mMovies.size());
+        // need to call notifyDataSetChanged otherwise Gridview will not be updated.
         notifyDataSetChanged();
     }
 
-    // update poster size
+    /**
+     * getMovieList
+     * @return List<Movie> movie list
+     */
+    public List<Movie> getMovieList() {
+
+       return mMovies;
+
+    }
+
+    /**
+     * updatePosterSize
+     * @param size set Poster'size to a new size
+     */
     public void updatePosterSize(String size) {
 
         currentPosterSize = size;
 
     }
+
 }
