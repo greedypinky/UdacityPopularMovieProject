@@ -18,7 +18,6 @@ import javax.net.ssl.HttpsURLConnection;
  * NetworkUtility
  */
 public class MovieNetworkUtility {
-
    // TODO: Please replace your own MOVIEDB's API KEY
    private final static String V3_API_KEY="";
    private final static String TAG = MovieNetworkUtility.class.getSimpleName();
