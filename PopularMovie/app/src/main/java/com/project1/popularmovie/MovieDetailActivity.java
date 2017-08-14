@@ -1,17 +1,12 @@
 package com.project1.popularmovie;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.project1.popularmovie.data.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -29,6 +24,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     TextView mOriginalTitle = null;
     TextView mReleaseDate = null;
     //TextView mMoviePlayTime = null; // for eg. 120 mins
+    ScrollView mScrollView = null;
     TextView mMoviePlot = null;
     TextView mUserRating = null;
     ImageView mMoviePoster= null;
@@ -46,6 +42,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         mMoviePoster = (ImageView) findViewById(R.id.image_movie_poster);
         mReleaseDate = (TextView)findViewById(R.id.text_movie_release_year);
         mUserRating = (TextView) findViewById(R.id.text_movie_rating);
+        mScrollView = (ScrollView) findViewById(R.id.scrollview_plot);
         mMoviePlot = (TextView)findViewById(R.id.text_movie_plot);
         //mMoviePlayTime = (TextView)findViewById(R.id.text_movie_playtime);
 

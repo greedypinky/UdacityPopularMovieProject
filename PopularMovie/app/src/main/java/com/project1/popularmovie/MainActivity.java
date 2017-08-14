@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.project1.popularmovie.data.Movie;
 import com.project1.popularmovie.data.MovieAdapter;
@@ -198,8 +197,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG,"Movie URL is " + sortMovieURL);
             try {
                 String response = MovieNetworkUtility.getResponseFromHttp(sortMovieURL);
-                Movie[] mMovies = MovieJSONUtility.parseData(getApplicationContext(),response);
-                return mMovies;
+                Movie[] theMovies = MovieJSONUtility.parseData(getApplicationContext(),response);
+                return theMovies;
             }catch(Exception e) {
                 e.printStackTrace();
                 return null;

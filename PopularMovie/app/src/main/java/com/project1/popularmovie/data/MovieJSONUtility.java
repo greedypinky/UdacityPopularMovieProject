@@ -24,7 +24,7 @@ public class MovieJSONUtility {
     private static final String STATUS_CODE = "status_code";
     private static final String STATUS_MESSAGE = "status_message";
 
-    // Information that we want to retrieve from each movie
+    // Information that we need to retrieve from each movie
     private static String id_param = "id";
     private static String vote_average_param = "vote_average";
     private static String title_param = "title";
@@ -62,7 +62,7 @@ public class MovieJSONUtility {
             String releaseYear = "";
 
             // what kind of parameter do we need to get?
-            /* TODO:get the parameter out and store into the movie object
+            /* get the parameter and store into the movie object
             id	:	19404
 
             video	:		false

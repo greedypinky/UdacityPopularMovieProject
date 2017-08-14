@@ -1,21 +1,16 @@
 package com.project1.popularmovie.data;
 import android.net.Uri;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.net.ssl.HttpsURLConnection;
-
 /**
- * NetworkUtility
+ * MovieNetworkUtility
  */
 public class MovieNetworkUtility {
    // TODO: Please replace your own MOVIEDB's API KEY
@@ -31,7 +26,7 @@ public class MovieNetworkUtility {
    /**
     * getMovieURL - build the URL by Uri.Builder
     * @param sortType
-    * @return
+    * @return URL URL of Popular movies or Top-rated movies
     */
    public static URL getMovieURL(String sortType) {
       Uri.Builder builder = null;

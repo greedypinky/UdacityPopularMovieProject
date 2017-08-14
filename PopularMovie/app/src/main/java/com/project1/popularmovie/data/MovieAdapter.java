@@ -7,19 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.project1.popularmovie.R;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.project1.popularmovie.R.layout.abc_action_bar_up_container;
-import static com.project1.popularmovie.R.layout.movie_item;
-
+/**
+ * MovieAdapter
+ */
 public class MovieAdapter extends ArrayAdapter<Movie> {
 
     private Context mContext; // Context of MainActivity
@@ -30,9 +25,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
 
     /**
-     * Current Context
+     * MovieAdapter
      * @param context
-     * Objects to display in the gridview
      * @param movies
      */
     public MovieAdapter(Activity context, List<Movie> movies) {
@@ -53,6 +47,10 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         }
     }
 
+    /**
+     * getCount
+     * @return return movie count
+     */
     @Override
     public int getCount() {
 
@@ -63,12 +61,24 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         }
     }
 
+    /**
+     * getItemId
+     * @param position
+     * @return item's position
+     */
     @Override
     public long getItemId(int position) {
 
         return position;
     }
 
+    /**
+     * getView
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return View View for movie item
+     */
     @Override
     public View getView(int position, View convertView,  ViewGroup parent) {
 
@@ -100,6 +110,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
     /**
      * call from the Async Task to set the latest movie list
+     * updateMovieList
      * @param theMovies movie list
      */
     public void updateMovieList(List<Movie> theMovies) {
