@@ -1,4 +1,4 @@
-Popular Movies, Stage 1
+# Popular Movies, Stage 1
 # Rubrics of this project
 https://review.udacity.com/#!/rubrics/66/view
 
